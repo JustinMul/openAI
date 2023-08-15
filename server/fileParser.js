@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const folderPath = '/Users/justinmulroney/Documents/transcripts';
-let counter = 0;
+
 const readFilesInFolder = async(folderPath) => {
 
   try {
@@ -23,7 +23,7 @@ const readFilesInFolder = async(folderPath) => {
           let startIndex = 0;
 
           while (startIndex < fileContent.length) {
-            counter += 1;
+           
             let endIndex = startIndex + chunkSize;
 
             // Move the endIndex back to complete the last word if needed
@@ -61,11 +61,4 @@ const readFilesInFolder = async(folderPath) => {
   }
 };
 
-readFilesInFolder(folderPath)
-  .then((textArray) => {
-    console.log(textArray);
-    console.log(counter);
-  })
-  .catch((error) => {
-    console.error('An error occurred:', error);
-  });
+module.exports = readFilesInFolder(folderPath);
