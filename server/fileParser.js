@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const folderPath = '/Users/justinmulroney/Documents/transcripts';
-
 const readFilesInFolder = async(folderPath) => {
 
   try {
@@ -54,6 +52,7 @@ const readFilesInFolder = async(folderPath) => {
       }
     }
     textArray.shift();
+  
     return textArray;
   } catch (error) {
     console.error('Error reading files:', error);
@@ -61,4 +60,4 @@ const readFilesInFolder = async(folderPath) => {
   }
 };
 
-module.exports = readFilesInFolder(folderPath);
+module.exports = readFilesInFolder;
