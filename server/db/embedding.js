@@ -2,6 +2,7 @@ require('dotenv').config();
 const fetch = require("node-fetch");
 const readFilesInFolder = require('./fileParser');
 
+// enter the file path where you're storing your historical data
 const folderPath = '/Users/justinmulroney/Documents/transcripts';
 
 const createEmbedding = async (textToEmbed, openAiHeaders) => {
@@ -21,7 +22,7 @@ const createEmbedding = async (textToEmbed, openAiHeaders) => {
   }
 };
 
-const generateEmbeddings = async () => {
+const generateEmbeddingsFromClient = async () => {
   const embeddingArray = [];
   const openAiHeaders = {
     'Content-Type': 'application/json',
@@ -58,4 +59,4 @@ const generateEmbeddings = async () => {
   return embeddingArray;
 };
 
-module.exports = generateEmbeddings;
+module.exports = generateEmbeddingsFromClient;
