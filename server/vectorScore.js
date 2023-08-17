@@ -1,14 +1,12 @@
-const generateEmbeddings = require('./embedding');
 require('dotenv').config();
 const mysql = require('mysql2/promise');
 
-const create = async({conn, content,vector}) => {
+const findTopMatches = async({conn, vector}) => {
   const [results] = await conn.execute(
-    'SELECT text dot_product(?,JSON_ARRAY_PACK(?)) as score from myvectortable order by score desc, limit 5',
-    [content,JSON.stringify(vector)]
+    'SELECT text, dot_product(vector,JSON_ARRAY_PACK(?)) as score FROM myvectortable ORDER BY score DESC LIMIT 5',
+    [JSON.stringify(vector)]
   );
-  console.log('results', results);
-  return results.insertId;
+  return results;
 };
 
 const vectorPair = async(text) =>{
@@ -22,15 +20,16 @@ const vectorPair = async(text) =>{
     });
     
     console.log("You have successfully connected to SingleStore.");
-    const embeddings = await generateEmbeddings();
    
-    await Promise.all(embeddings.map(async(element) => {
-      await create({
+    const resultsArray = await Promise.all(text.map(async(element) => {
+      return findTopMatches({
         conn: singleStoreConnection,
-        content: element.text,
         vector: element.embedding
       });
     }));
+
+    return resultsArray; // Return the array of results from all iterations
+    
     
     
   } catch (err) {
@@ -44,4 +43,4 @@ const vectorPair = async(text) =>{
   
 };
 
-vectorPair();
+module.exports = vectorPair;

@@ -9,7 +9,6 @@ const create = async({conn, content,vector}) => {
     'INSERT INTO myvectortable (text, vector) VALUES (?,JSON_ARRAY_PACK(?))',
     [content,JSON.stringify(vector)]
   );
-  console.log('results', results);
   return results.insertId;
 };
 
