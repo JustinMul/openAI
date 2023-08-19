@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql2/promise');
 
+
 app.use(bodyParser.json());
 
 app.get("/api", (req, res) => {
@@ -20,12 +21,10 @@ app.listen(PORT, () => {
 
 app.post('/api/endpoint', async (req, res) => {
   const receivedData = req.body.data;
-  console.log('Received data:', receivedData);
+  // console.log('Received data:', receivedData);
   const embedding = await(generateEmbeddingsFromClient(receivedData));
+  // console.log("this is embeddings", embedding)
   const vectorPairing = await(vectorPair(embedding));
-
-  console.log('embeddign', embedding);
-  console.log('vp',vectorPairing);
   res.json({ message: 'Data received successfully!' });
 });
 

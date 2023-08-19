@@ -1,14 +1,16 @@
 const generateEmbeddings = require('./embedding');
-
-require('dotenv').config();
-
+const path = require('path');
+const dotenvPath = path.resolve(__dirname, '../.env');
+require('dotenv').config({ path: dotenvPath });
 const mysql = require('mysql2/promise');
+
 
 const create = async({conn, content,vector}) => {
   const [results] = await conn.execute(
     'INSERT INTO myvectortable (text, vector) VALUES (?,JSON_ARRAY_PACK(?))',
     [content,JSON.stringify(vector)]
   );
+  
   return results.insertId;
 };
 
@@ -24,7 +26,8 @@ const main = async() =>{
     
     console.log("You have successfully connected to SingleStore.");
     const embeddings = await generateEmbeddings();
-   
+  
+
     await Promise.all(embeddings.map(async(element) => {
       await create({
         conn: singleStoreConnection,

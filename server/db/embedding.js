@@ -1,4 +1,6 @@
-require('dotenv').config();
+const path = require('path');
+const dotenvPath = path.resolve(__dirname, '../.env');
+require('dotenv').config({ path: dotenvPath });
 const fetch = require("node-fetch");
 const readFilesInFolder = require('./fileParser');
 
@@ -56,6 +58,7 @@ const generateEmbeddingsFromClient = async () => {
     console.error('An error occurred:', error);
   }
 
+  console.log('this is embedding array', embeddingArray);
   return embeddingArray;
 };
 
