@@ -14,9 +14,8 @@ const readFilesInFolder = async(folderPath) => {
       if (stats.isFile()) {
         try {
           const fileContent = await fs.promises.readFile(filePath, 'utf-8');
-
-          const chunkSize = 25000;
-          const overlap = 1000;
+          const chunkSize = 18000;
+          const overlap = 200;
 
           let startIndex = 0;
 
@@ -52,7 +51,6 @@ const readFilesInFolder = async(folderPath) => {
       }
     }
     textArray.shift();
-  
     return textArray;
   } catch (error) {
     console.error('Error reading files:', error);

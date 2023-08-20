@@ -1,18 +1,23 @@
 const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
 require('dotenv').config();
 
 const generateEmbeddingsFromClient = require('./embeddingConversion');
 const vectorPair = require('./vectorScore');
+const sendOpenAiRequest = require('./openaiRequest');
 const PORT = process.env.PORT || 3001;
 const bodyParser = require('body-parser');
 const app = express();
-const mysql = require('mysql2/promise');
+const server = http.createServer(app);
+const io = socketIo(server); // Initialize socket.io
 
+let openAIAnswer = '';
 
 app.use(bodyParser.json());
 
 app.get("/api", (req, res) => {
-  res.json({ message: "test" });
+  res.json({ message: openAIAnswer });
 });
 
 app.listen(PORT, () => {
@@ -21,12 +26,16 @@ app.listen(PORT, () => {
 
 app.post('/api/endpoint', async (req, res) => {
   const receivedData = req.body.data;
-  // console.log('Received data:', receivedData);
-  const embedding = await(generateEmbeddingsFromClient(receivedData));
-  // console.log("this is embeddings", embedding)
-  const vectorPairing = await(vectorPair(embedding));
+  const embedding = await generateEmbeddingsFromClient(receivedData);
+  const vectorPairing = await vectorPair(embedding);
+  openAIAnswer = await sendOpenAiRequest(embedding[0].text, vectorPairing[0]);
+
+  // Emit the updated value to connected clients
+  io.emit("openAIAnswer", openAIAnswer);
+
   res.json({ message: 'Data received successfully!' });
 });
 
-
-
+server.listen(PORT + 1, () => {
+  console.log(`Socket.io listening on ${PORT + 1}`);
+});
