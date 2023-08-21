@@ -42,10 +42,7 @@ const generateEmbeddingsFromClient = async () => {
       const batch = textArray.slice(i, i + batchSize);
 
       for (const text of batch) {
-        console.log('Text', text);
         const embedding = await createEmbedding(text, openAiHeaders);
-
-        console.log('This is embedding', embedding.data[0].embedding);
         embeddingArray.push({ 'text': text, 'embedding': embedding.data[0].embedding });
 
       }
@@ -58,8 +55,6 @@ const generateEmbeddingsFromClient = async () => {
   } catch (error) {
     console.error('An error occurred:', error);
   }
-
-  console.log('this is embedding array', embeddingArray);
   return embeddingArray;
 };
 
