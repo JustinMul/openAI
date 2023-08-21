@@ -1,0 +1,40 @@
+
+ 
+.textBox {
+  overflow: auto;
+  /* width: 50rem; */
+  height: 80vh;
+  color: white;
+  font-size: 16px;
+  line-height: 1.5
+}
+
+.textBox::-webkit-scrollbar{
+  background-color: transparent;
+}
+.textBox::-webkit-scrollbar-thumb{
+  background-color: gray;
+}
+
+.message {
+  margin: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  display: inline-block;
+  max-width: 95%;
+}
+
+.left {
+  background-color: #343541;
+  text-align: left;
+  float: left;
+  width: auto;
+  width: 100%;
+}
+
+.right {
+  background-color: #444654;
+  text-align:left;
+  float: left;
+  width: 100%;
+}

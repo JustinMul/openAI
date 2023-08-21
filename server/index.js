@@ -10,12 +10,19 @@ const PORT = process.env.PORT || 3001;
 const bodyParser = require('body-parser');
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server); // Initialize socket.io
 
-let openAIAnswer = '';
+const cors = require("cors");
+app.use(cors()); // Use cors middleware to allow cross-origin requests
+
+let io = require('socket.io')(server, {
+  cors: {
+    origin: '*',
+  }
+});
 
 app.use(bodyParser.json());
 
+let openAIAnswer = '';
 app.get("/api", (req, res) => {
   res.json({ message: openAIAnswer });
 });
