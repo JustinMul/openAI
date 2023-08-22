@@ -36,7 +36,7 @@ const generateEmbeddingsFromClient = async () => {
     const textArray = await readFilesInFolder(folderPath);
 
     const batchSize = 3;
-    const delay = 90000; // 1.5 minutes in milliseconds
+    // const delay = 90000; // 1.5 minutes in milliseconds (delay is required if on free plan)
 
     for (let i = 0; i < textArray.length; i += batchSize) {
       const batch = textArray.slice(i, i + batchSize);
@@ -47,10 +47,11 @@ const generateEmbeddingsFromClient = async () => {
 
       }
 
-      if (i + batchSize < textArray.length) {
-        console.log(`Waiting for ${delay / 1000} seconds before the next batch...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
+      // uncomment below if on free plan
+      // if (i + batchSize < textArray.length) {
+      //   console.log(`Waiting for ${delay / 1000} seconds before the next batch...`);
+      //   await new Promise(resolve => setTimeout(resolve, delay));
+      // }
     }
   } catch (error) {
     console.error('An error occurred:', error);

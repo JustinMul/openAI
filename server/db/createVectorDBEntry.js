@@ -7,7 +7,7 @@ const mysql = require('mysql2/promise');
 
 const create = async({conn, content,vector}) => {
   const [results] = await conn.execute(
-    'INSERT INTO myvectortable (text, vector) VALUES (?,JSON_ARRAY_PACK(?))',
+    'INSERT INTO myvectortableshort (text, vector) VALUES (?,JSON_ARRAY_PACK(?))',
     [content,JSON.stringify(vector)]
   );
   

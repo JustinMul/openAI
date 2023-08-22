@@ -12,7 +12,7 @@ const app = express();
 const server = http.createServer(app);
 
 const cors = require("cors");
-app.use(cors()); // Use cors middleware to allow cross-origin requests
+app.use(cors());
 
 let io = require('socket.io')(server, {
   cors: {
@@ -31,7 +31,7 @@ app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 
-app.post('/api/endpoint', async (req, res) => {
+app.post('/api/endpoint', async(req, res) => {
   const receivedData = req.body.data;
   const embedding = await generateEmbeddingsFromClient(receivedData);
   const vectorPairing = await vectorPair(embedding);

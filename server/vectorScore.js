@@ -3,7 +3,7 @@ const mysql = require('mysql2/promise');
 
 const findTopMatches = async({conn, vector}) => {
   const [results] = await conn.execute(
-    'SELECT text, json_array_unpack(vector) AS vector_array, dot_product(vector, JSON_ARRAY_PACK(?)) AS score FROM myvectortable ORDER BY score DESC LIMIT 5;',
+    'SELECT text, json_array_unpack(vector) AS vector_array, dot_product(vector, JSON_ARRAY_PACK(?)) AS score FROM myvectortableshort ORDER BY score DESC LIMIT 5;',
     [JSON.stringify(vector)]
   );
  
